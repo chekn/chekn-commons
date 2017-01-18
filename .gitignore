@@ -1,0 +1,7 @@
+#忽视所有文件，除了src目录和.gitignore
+/*
+!.gitignore
+!/src
+#忽视敏感信息
+/src/test/resources/*.properties
+!pom.xml
