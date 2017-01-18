@@ -47,7 +47,8 @@ public class Test2 {
 	
 		
 		OSSClient ossClient = getOssClient();
-		bakBucket(ossClient, "uploadall", "uploadall-bak");
+		///bakBucket(ossClient, "uploadall", "uploadall-bak");
+		clearBucket(ossClient, "uploadall-bak");
 		ossClient.shutdown();
 	}
 	
@@ -87,4 +88,43 @@ public class Test2 {
 		System.out.println(String.format("%s-%s bak opeation finish.", 1));
 	}
 
+	
+	public static void clearBucket(OSSClient ossClient, String bucketName) {
+		final int maxKeys = 100;
+		String nextMarker = null;
+		
+		/*
+		Date now = new Date();
+		int upTotal=0;
+		logger.info("new img task start -> marker: {} ...", DateFormatUtils.format(now, "yyyy-MM-dd HH:mm:ss.SSS"));
+		Date endTime = new Date();
+		logger.info("new img task done -> find: {}, spend time: {} s, marker: {}...", upTotal, (endTime.getTime() - now.getTime()) /1000, DateFormatUtils.format(endTime, "yyyy-MM-dd HH:mm:ss.SSS") );
+		*/
+		ObjectListing listing; 
+		do{
+			//区全部内容条件拼装
+			ListObjectsRequest listObjectsRequest= new ListObjectsRequest(bucketName);
+			if(nextMarker!=null)
+				listObjectsRequest.withMarker(nextMarker);
+			listing = ossClient.listObjects(listObjectsRequest.withMaxKeys(maxKeys));
+			List<OSSObjectSummary> dataUnit= listing.getObjectSummaries();
+			
+			for(OSSObjectSummary mDataUnit: dataUnit) {
+				//Date lastModifiedDate= mDataUnit.getLastModified();
+				String imagePath=mDataUnit.getKey();
+				//备份
+				ossClient.deleteObject(bucketName, imagePath);
+				//
+				System.out.println(imagePath);
+			}
+
+			System.out.println();
+			nextMarker=listing.getNextMarker();
+			//logger.info("current arrive nextMarker->{}...", nextMarker);
+		} while(listing.isTruncated()) ;
+		
+		System.out.println(String.format("%s bak opeation finish.", 1));	//%s 能少，不能多
+	}
+
+	
 }
