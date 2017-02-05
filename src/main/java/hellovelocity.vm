@@ -5,3 +5,72 @@ today is $date.
 $i
 #end
 $iAmVariable
+
+Velocity 所有关键字都是以 # 开头的，而所有变量都是以$开头的, 模板中可以定义类似函数的宏
+--定义变量
+#set($name="velocity")
+#set($hello="hello $name")
+
+${person.name}
+
+--变量赋值
+#set($foo=$bar)
+#set($foo="hello")
+#set($foo.name=$bar.name)
+#set($foo.name=$bar。getName($arg))
+#set($foo=123)
+#set($foo=["foo",$bar])
+
+--循环
+#foreach($element in $list)
+ This is $element
+ $velocityCount
+#end
+velocity 会自动将list中的值循环赋给 element 变量，同时会创建一个 $velocityCount 的变量作为计数，从1 开始，每次循环都会加 1
+
+--条件语句
+#if(condition)
+。。。
+#elseif(condition)
+...
+#else
+...
+#end
+
+--关系操作符 
+#if($foo && $bar)
+。。。
+#end
+velocity 提供了 and,or,not 操作符，分别对应 && , || 和 !
+
+--宏
+#macro(macroName arg1 arg2 ...)
+...
+#end
+velocity 中的宏可以理解为函数的定义。
+
+#macroName(arg1 arg2 ...)
+调用这个宏的语法
+ 
+ 这里的参数之间使用空格隔开，下面是定义和使用 velocity 宏的例子
+#macro(sayHello $name)
+hello $name
+#end
+
+#sayHello("velocity")
+
+--#parse 和 #include
+#parse 和 #include 指令的功能都是在外部引入文件，而两者的区别是， #parse 会将引用的内容单层类似于源码文件，会将内容在引入的地方进
+行解析，#include 是将引入文件当成资源文件，会将引入文件当成资源文件，会将引入内容原封不动的以文本输出。
+foo.vm 文件:
+#set($name="velocity")
+
+parse.vm:
+#parse("foo.vm")
+输出结果为 velocity
+
+include.vm:
+#include("foo.vm")
+输出结果为: #set($name="velocity")
+
+
