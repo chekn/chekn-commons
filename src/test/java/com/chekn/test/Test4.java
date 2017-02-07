@@ -1,6 +1,10 @@
 package com.chekn.test;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +14,7 @@ public class Test4 {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		System.out.println("阻塞的".matches("\\w*"));
 		
@@ -24,7 +28,12 @@ public class Test4 {
 
 	    List<String> comparRes = cctor.sort(true);
 	    System.out.println( comparRes );
-		
+	    
+	    FileInputStream is = new FileInputStream(new File("c://装箱单1231238.pdf"));
+	    String fmd5= DigestUtils.md5Hex(is);
+	    is.close();
+	    System.out.println(fmd5);
+	    
 	}
 	
 }
