@@ -22,6 +22,27 @@ public class U {
 		} else
 			files.add(file);
 	}
+	
+	public static Throwable getFinalCause(Throwable cause) {
+		if(cause.getCause() !=null ) 
+			return getFinalCause(cause.getCause());
+		else
+			return cause;
+	}
+	
+	public static Thread getThread(long threadId) {
+		ThreadGroup group = Thread.currentThread().getThreadGroup();
+		while(group != null ){
+			Thread[] threads = new Thread[ (int)(group.activeCount() * 1.2)];
+			int count = group .enumerate(threads, true);
+			for(int i=0; i<count; i++) {
+				if(threadId == threads[i].getId())
+					return threads[i];
+			}
+			group =group.getParent();
+		}
+		return null;
+	}
 
 	/**
 	 * 大部分IO输入流是无法重复读取的，只能读取一次。再读取时，会抛出IO异常，我们可以使用ByteArrayOutputStream将流数据缓存到内存中，达到多次读取的目的。
