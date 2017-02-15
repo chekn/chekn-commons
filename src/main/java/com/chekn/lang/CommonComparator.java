@@ -63,9 +63,9 @@ public class CommonComparator<T, N>
 
   private boolean strCompare(String max, String min)
   {
-    if ((StringUtils.isEmpty(max)) || (StringUtils.isEmpty(min)) || (!min.matches("(\\w|[\u4E00-\u9FA5])*")) || (!max.matches("(\\w|[\u4E00-\u9FA5])*"))) {
+    /*if ((StringUtils.isEmpty(max)) || (StringUtils.isEmpty(min)) || (!min.matches("(\\w|[\u4E00-\u9FA5])*")) || (!max.matches("(\\w|[\u4E00-\u9FA5])*"))) {
       throw new RuntimeException("请保持字符串非空 和只以 字母,数据,汉字 组成");
-    }
+    }*/
 
     boolean isTrue = false;
     if (max.length() > min.length()) {
