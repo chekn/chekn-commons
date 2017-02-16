@@ -223,4 +223,5 @@ public class FileTypeUtils {
 		final String fileType2 = getFileTypeByFileInputStream(is);
 		System.out.println(fileType2);
 	}
+	
 }
