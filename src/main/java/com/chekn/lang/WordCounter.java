@@ -42,7 +42,7 @@ public class WordCounter {
 		}); // 排序
 		
 		Map<T,Integer> revMap = new LinkedHashMap<T, Integer>();
-		for (int i = 0; i < infoIds.size(); i++) { // 输出
+		for (int i = 0; i < infoIds.size(); i++) { 
 			Entry<T, Integer> id = infoIds.get(i);
 			revMap.put(id.getKey(), id.getValue());
 		}
@@ -54,6 +54,7 @@ public class WordCounter {
 	 * @param args
 	 * @throws ParseException
 	 */
+	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) throws ParseException {
 		
 		
