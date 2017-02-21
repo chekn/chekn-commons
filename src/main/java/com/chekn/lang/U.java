@@ -6,7 +6,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.ahocorasick.trie.Emit;
+import org.ahocorasick.trie.Trie;
+import org.ahocorasick.trie.Trie.TrieBuilder;
 
 /**
  * 
@@ -70,6 +76,34 @@ public class U {
 		InputStream retInputStream = new ByteArrayInputStream(bos.toByteArray());
 		bos.close();
 		return retInputStream;
+	}
+	
+	//
+	public static void main(String[] args) {
+		Trie trie = Trie.builder()
+				.onlyWholeWords()
+				.removeOverlaps()
+		        .addKeyword("his")
+		        .addKeyword("he")
+		        .addKeyword("he cd")
+		        .build();
+		 Collection<Emit> emits = trie.parseText("he cd cdsd his");
+		 System.out.println(emits);
+	}
+	
+	//
+	public static List<String> getMostMatches(String blockStr, List<String> dic) {
+		TrieBuilder tb = Trie.builder().onlyWholeWords().removeOverlaps();
+		for(String kw: dic) 
+			tb.addKeyword(kw);
+		
+		Trie trie = tb.build();
+		Collection<Emit> emits = trie.parseText(blockStr);
+		
+		List<String> rev = new ArrayList<String>();
+		for(Emit emit: emits) 
+			rev.add(emit.getKeyword());
+		return rev;
 	}
 	
 }
