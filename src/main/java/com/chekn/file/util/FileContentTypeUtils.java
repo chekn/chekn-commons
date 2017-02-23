@@ -19,7 +19,7 @@ public class FileContentTypeUtils {
 	
 	public static void main(String[] args) {
 		try {
-			System.out.println("File content type is : " + getContentType(""));
+			System.out.println("File content type is : " + getContentType("C:/636148905591860408.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
